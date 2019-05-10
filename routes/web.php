@@ -27,3 +27,6 @@ Route::get('/test/get', 'Test\TestController@testGet');
 
 Route::get('/test/upload', 'Test\TestController@upload1');
 Route::post('/upload', 'Test\TestController@upload2');
+
+
+Route::get('/test/sec', 'Test\TestController@secretTest');
