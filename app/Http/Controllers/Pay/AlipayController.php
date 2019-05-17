@@ -88,7 +88,7 @@ class AlipayController extends Controller
 
         $url = rtrim($param_str,'&');
         $url = $this->gate_way . $url;
-        header("Location:".$url);
+        header("Location:".$url);       // 重定向到支付宝支付页面
     }
 
 
@@ -174,6 +174,8 @@ class AlipayController extends Controller
         $log_str = "\n>>>>>> " .date('Y-m-d H:i:s') . ' '.$p . " \n";
         file_put_contents('logs/alipay_notify',$log_str,FILE_APPEND);
         echo 'success';
+
+        //TODO 验签 更新订单状态
     }
 
     /**

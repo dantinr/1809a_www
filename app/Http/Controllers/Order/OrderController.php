@@ -20,6 +20,8 @@ class OrderController extends Controller
         $oid = intval($_GET['oid']);
         $info = OrderModel::where(['oid'=>$oid])->first();
         echo '<pre>';print_r($info);echo '</pre>';
+
+        return view('order.pay');
     }
 
     /**
