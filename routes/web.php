@@ -30,3 +30,5 @@ Route::post('/upload', 'Test\TestController@upload2');
 
 
 Route::get('/test/sec', 'Test\TestController@secretTest');
+Route::get('/test/rsa', 'Test\TestController@rsaTest');
+Route::get('/test/sign', 'Test\TestController@testSign');

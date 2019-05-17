@@ -59,7 +59,7 @@ class TestController extends Controller
 
 
     /**
-     * 发送加密数据
+     * 对称加密
      */
     public function secretTest()
     {
@@ -102,10 +102,93 @@ class TestController extends Controller
             exit;
         }
         curl_close($ch);
-
-        
-
-
-
     }
+
+
+    /**
+     * 非对称加密
+     */
+    public function rsaTest()
+    {
+
+        $data = [
+            'nickname'  => 'lisi',
+            'email'     => 'lisi@qq.com',
+            'age'       => 22,
+            'bank_id'   => 'weoriuweroi'
+        ];
+        //加密数据
+
+        $json_str = json_encode($data);
+
+        //加密
+        $k = openssl_pkey_get_private('file://'.storage_path('app/keys/private.pem'));   // file://
+        openssl_private_encrypt($json_str,$enc_data,$k);
+
+
+        $send_data = base64_encode($enc_data);
+        $api_url = 'http://api.1809a.com/test/rsa';
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$api_url);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$send_data);     // raw 格式
+        curl_setopt($ch,CURLOPT_HTTPHEADER,[
+            'Content-Type:text/plain'
+        ]);
+
+        $response = curl_exec($ch);
+        //监控错误码
+        $err_code = curl_errno($ch);
+
+        if($err_code>0){
+            echo "CURL 错误码:".$err_code;
+            exit;
+        }
+        curl_close($ch);
+    }
+
+    /**
+     * 非对称加密签名
+     *
+     */
+    public function testSign()
+    {
+        $data = [
+            'oid'       => 123456,
+            'amount'    => 2000,
+            'title'     => '测试订单',
+            'username'  => 'zhangsan'
+        ];
+
+
+        $json_str = json_encode($data);     //要发送的数据
+        $k = openssl_get_privatekey('file://'.storage_path('app/keys/private.pem'));
+        //计算签名  使用私钥对数据签名
+        openssl_sign($json_str,$signature,$k);
+       // echo 'signature: '.$signature;echo '</br>';
+        $b64 = base64_encode($signature);
+
+        $api_url = 'http://api.1809a.com/test/sign?sign='.urlencode($b64);
+        echo 'URL: '. $api_url;echo '<hr>';
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$api_url);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$json_str);     // raw 格式
+        curl_setopt($ch,CURLOPT_HTTPHEADER,[
+            'Content-Type:text/plain'
+        ]);
+
+        $response = curl_exec($ch);
+        //监控错误码
+        $err_code = curl_errno($ch);
+
+        if($err_code>0){
+            echo "CURL 错误码:".$err_code;
+            exit;
+        }
+        curl_close($ch);
+    }
+
 }
