@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    www.1809a.com
+                    {{env('APP_URL')}}
                 </div>
 
                 <div class="links">
