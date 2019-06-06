@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/test/upload', 'Test\TestController@upload1');
+Route::get('/test/cdn1', 'Test\TestController@testCdn');
 Route::post('/upload', 'Test\TestController@upload2');
 
 Route::get('/test/sec', 'Test\TestController@secretTest');

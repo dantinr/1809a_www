@@ -191,4 +191,9 @@ class TestController extends Controller
         curl_close($ch);
     }
 
+    public function testCdn()
+    {
+        return view('test.cdn1');
+    }
+
 }
