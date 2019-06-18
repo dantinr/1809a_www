@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Test;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use App\Model\UserModel;
 
 class TestController extends Controller
 {
@@ -194,6 +195,32 @@ class TestController extends Controller
     public function testCdn()
     {
         return view('test.cdn1');
+    }
+
+    public function insert100k()
+    {
+        for($i=0;$i<100000;$i++){
+            $length1 = mt_rand(5,10);
+            $length2 = mt_rand(5,10);
+            $e_num = mt_rand(0,3);
+            $email = [
+                '@qq.com',
+                '@163.com',
+                '@gmail.com',
+                '@sohu.com'
+            ];
+
+
+            $u = [
+                'name'  => Str::random($length1),
+                'email' => Str::random($length2) . '@' . $email[$e_num],
+                'age'   => mt_rand(10,100),
+               // 'add_time'=> time()
+            ];
+
+            $uid = UserModel::insertGetId($u);
+            echo 'UID: '.$uid;echo '</br>';
+        }
     }
 
 }

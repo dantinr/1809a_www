@@ -185,4 +185,60 @@ class AlipayController extends Controller
     {
         echo '<pre>';print_r($_GET);echo '</pre>';
     }
+
+
+
+    //调起支付宝支付
+    public function aliTest()
+    {
+
+        $ali_gateway = 'https://openapi.alipaydev.com/gateway.do';
+        //1 组合参数
+        $app_param = [
+            'subject'       => '测试订单-'.time() . mt_rand(11111,99999),
+            'out_trade_no'  => 0615 . time(). '_' . mt_rand(11111,99999),
+            'total_amount'  => mt_rand(1,999) / 100,
+            'product_code'  => 'QUICK_WAP_WAY'
+        ];
+
+        $pub_param = [
+            'app_id'    => '2016092500593666',          //沙箱账号
+            'method'    => 'alipay.trade.wap.pay',    //手机网站支付
+            'charset'   => 'utf-8',
+            'sign_type' => 'RSA2',
+            'timestamp' => date('Y-m-d H:i:s'),
+            'version'   => '1.0',
+            'biz_content'   => json_encode($app_param),                  //业务参数 json
+        ];
+        echo '<pre>';print_r($pub_param);echo '</pre>';echo '<hr>';
+
+        // 2 计算签名
+        ksort($pub_param);
+
+        echo '<pre>';print_r($pub_param);echo '</pre>';echo '<hr>';
+        $str = "";
+        foreach($pub_param as $k=>$v){
+            $str .= $k . '=' . $v . '&';
+        }
+        echo $str;
+        $str = rtrim($str,'&');
+
+        //私钥签名
+        openssl_sign($str,$signature,openssl_get_privatekey("file://".storage_path('keys/priv.pem')),OPENSSL_ALGO_SHA256);
+
+        $pub_param['sign'] = base64_encode($signature);echo '<hr>';
+        echo '<pre>';print_r($pub_param);echo '</pre>';
+
+        $url_param = "";
+        foreach($pub_param as $k=>$v){
+            $url_param .= $k . '=' . urlencode($v) . '&';
+        }
+
+        $request_url = $ali_gateway . '?' .$url_param;echo '<hr>';
+        echo $request_url;
+
+        header("Location:".$request_url);
+
+
+    }
 }
