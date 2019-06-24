@@ -41,6 +41,12 @@ Route::get('/pay/alipay/return', 'Pay\AlipayController@aliReturn');       //æ”¯ä
 
 Route::get('/alitest', 'Pay\AlipayController@aliTest');
 
+Route::get('/mysql/cut1', 'Test\TestController@cut1');
+Route::get('/mysql/cut2', 'Test\TestController@cut2');
+
+
+
+
 
 
 

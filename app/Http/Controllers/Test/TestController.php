@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use App\Model\UserModel;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
@@ -221,6 +223,50 @@ class TestController extends Controller
             $uid = UserModel::insertGetId($u);
             echo 'UID: '.$uid;echo '</br>';
         }
+    }
+
+
+    //分表测试
+    public function cut1()
+    {
+        $uid = Redis::incr('incr:generate_uid');
+        echo 'uid: '.$uid;echo '</br>';
+        $table_id = $uid % 5;
+
+        $data = [
+            'uid'           => $uid,
+            'user_name'     => Str::random(8),
+            'email'         => Str::random(10).'@qq.com',
+            'add_time'      => time(),
+        ];
+
+        $table = 'p_user_'.$table_id;
+        echo $table;
+
+        $rs = DB::table($table)->insertGetId($data);echo '</br>';
+
+        var_dump($rs);
+    }
+
+    public function cut2()
+    {
+        $timestamp = mt_rand(946656000,1546272000);
+        $timestamp2 = mt_rand(946656000,1546272000);
+        $date = date('Y-m-d',$timestamp);
+        $date2 = date('Y-m-d',$timestamp2);
+        $data = [
+            'id'    => mt_rand(1,9999999),
+            'fname' => Str::random(5),
+            'lname' => Str::random(8),
+            'hired' => $date,
+            'separated' => $date2,
+            'job_code'  => mt_rand(1,100000),
+            //'store_id'  => mt_rand(1,20)
+            'store_id'  => 20
+        ];
+
+        $id = DB::table('employees')->insertGetId($data);
+        var_dump($id);
     }
 
 }
