@@ -73,6 +73,10 @@ class TestController extends Controller
             'bank_id'   => '112233445567'
         ];
 
+        $u = UserModel::limit(5)->get();
+        echo '<pre>';print_r($u);echo '</pre>';
+
+
         $method = 'AES-256-CBC';
         $pass = 'xxyyzz';
         $iv = '1809a1809a1809aa';
@@ -269,4 +273,17 @@ class TestController extends Controller
         var_dump($id);
     }
 
+    public function mysql1()
+    {
+        for($i=0;$i<100;$i++)
+        {
+            echo 'i='.$i;echo '</br>';
+            $data = [
+                'age'   => mt_rand(1,100),
+                'name'  => Str::random(10)
+            ];
+            DB::table('p_users')->insert($data);
+        }
+
+    }
 }

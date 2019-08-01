@@ -20,9 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/test/upload', 'Test\TestController@upload1');
+Route::get('/test/mysql1', 'Test\TestController@mysql1');
 Route::get('/test/cdn1', 'Test\TestController@testCdn');
 Route::post('/upload', 'Test\TestController@upload2');
 
+Route::get('/test/ab', 'Test\TestController@ab');
 Route::get('/test/sec', 'Test\TestController@secretTest');
 Route::get('/test/rsa', 'Test\TestController@rsaTest');
 Route::get('/test/sign', 'Test\TestController@testSign');
@@ -43,6 +45,8 @@ Route::get('/alitest', 'Pay\AlipayController@aliTest');
 
 Route::get('/mysql/cut1', 'Test\TestController@cut1');
 Route::get('/mysql/cut2', 'Test\TestController@cut2');
+
+
 
 
 
