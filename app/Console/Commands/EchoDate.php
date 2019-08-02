@@ -4,21 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class Test extends Command
+class EchoDate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'echo:date';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '显示当前日期时间';
 
     /**
      * Create a new command instance.
@@ -37,6 +37,7 @@ class Test extends Command
      */
     public function handle()
     {
-        //
+        $time = date('Y-m-d H:i:s'). "\n";
+        file_put_contents("/tmp/laravel_cron.log",$time,FILE_APPEND);
     }
 }

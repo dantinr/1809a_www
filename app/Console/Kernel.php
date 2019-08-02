@@ -27,13 +27,14 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->call(function(){
-            $time = date('Y-m-d H:i:s'). "\n";
-            file_put_contents("/tmp/laravel_cron.log",$time,FILE_APPEND);
-        })->everyMinute();
+//        $schedule->call(function(){
+//            $time = date('Y-m-d H:i:s'). "\n";
+//            file_put_contents("/tmp/laravel_cron.log",$time,FILE_APPEND);
+//        })->everyMinute();
 
         //群发微信消息 调用artisan命令
         //$schedule->command('wx:send')->everyMinute();
+        $schedule->command('echo:date')->everyMinute();
     }
 
     /**
