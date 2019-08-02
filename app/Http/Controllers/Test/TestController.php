@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Model\UserModel;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\EchoDate;
 
 class TestController extends Controller
 {
@@ -285,5 +286,13 @@ class TestController extends Controller
             DB::table('p_users')->insert($data);
         }
 
+    }
+
+    public function reg()
+    {
+
+
+        echo __METHOD__;echo '</br>';
+        EchoDate::dispatch()->onQueue('reg_email');
     }
 }

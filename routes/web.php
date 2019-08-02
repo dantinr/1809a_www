@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/test/upload', 'Test\TestController@upload1');
 Route::get('/test/mysql1', 'Test\TestController@mysql1');
+Route::get('/test/reg', 'Test\TestController@reg');
 Route::get('/test/cdn1', 'Test\TestController@testCdn');
 Route::post('/upload', 'Test\TestController@upload2');
 
