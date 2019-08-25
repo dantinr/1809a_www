@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use App\Model\UserModel;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
-use App\Jobs\EchoDate;
+use App\Jobs\ShowDate;
 
 class TestController extends Controller
 {
@@ -288,11 +288,13 @@ class TestController extends Controller
 
     }
 
+    /**
+     * 用户注册
+     */
     public function reg()
     {
-
-
         echo __METHOD__;echo '</br>';
-        EchoDate::dispatch()->onQueue('reg_email');
+
+        ShowDate::dispatch()->onQueue('send_email');
     }
 }
