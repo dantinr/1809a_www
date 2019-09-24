@@ -297,4 +297,10 @@ class TestController extends Controller
 
         ShowDate::dispatch()->onQueue('send_email');
     }
+
+
+    public function cdn()
+    {
+        return view('test.cdn');
+    }
 }

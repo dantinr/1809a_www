@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test/upload', 'Test\TestController@upload1');
 Route::get('/test/mysql1', 'Test\TestController@mysql1');
 Route::get('/test/reg', 'Test\TestController@reg');
-Route::get('/test/cdn1', 'Test\TestController@testCdn');
+Route::get('/test/cdn', 'Test\TestController@cdn');
 Route::post('/upload', 'Test\TestController@upload2');
 
 Route::get('/test/ab', 'Test\TestController@ab');
