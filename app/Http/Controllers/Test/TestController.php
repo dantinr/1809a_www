@@ -9,6 +9,7 @@ use App\Model\UserModel;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\ShowDate;
+use App\Model\TestModel;
 
 class TestController extends Controller
 {
@@ -303,4 +304,55 @@ class TestController extends Controller
     {
         return view('test.cdn');
     }
+
+    public function addRecord()
+    {
+        for($i=1590;$i<10000;$i++)
+        {
+            $data = [
+                'id'    => $i,
+                'fname' => Str::random(8),
+                'lname' => Str::random(10),
+                'hired' => date('Y-m-d',mt_rand(strtotime('2000-01-01'),strtotime('2019-10-10'))),
+                'separated' => date('Y-m-d',mt_rand(strtotime('2000-01-01'),strtotime('2019-10-10'))),
+                'job_code'  => mt_rand(1,1000),
+                'store_id'  => mt_rand(1,20),
+            ];
+
+            TestModel::insert($data);
+            echo $i;echo '</br>';
+
+        }
+    }
+
+
+    public function reg1()
+    {
+
+
+        $u_pass = Str::random(8);
+        $pass = password_hash($u_pass,PASSWORD_BCRYPT);
+
+        $redis_userid_key = 'str:count:userid';
+        $uid = Redis::incr($redis_userid_key);
+
+        echo 'uid: '.$uid;echo '</br>';
+        $user_info = [
+            'uid'   => $uid,
+            'name'  => Str::random(8),
+            'pass'  => $pass,
+            'email' => Str::random(8).'@qq.com',
+            'reg_time'  => time()
+        ];
+        echo '<pre>';print_r($user_info);echo '</pre>';
+
+        $user_table = 'users_'. $uid%5;          //计算分表
+        echo $user_table;echo '<hr>';
+
+        $id = DB::table($user_table)->insertGetId($user_info);
+        var_dump($id);
+
+
+    }
+
 }
